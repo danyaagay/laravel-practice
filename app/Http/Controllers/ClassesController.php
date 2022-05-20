@@ -15,7 +15,7 @@ class ClassesController extends Controller
 
     public function show($id)
     {
-        return Classes::find($id);
+        return Classes::with('students')->findOrFail($id);
     }
 
     public function store(StoreClassesRequest $request)
@@ -33,7 +33,8 @@ class ClassesController extends Controller
 
     public function destroy($id)
     {
-        Classes::destroy($id);
-        return response(null, 204);
+        $class = Classes::findOrFail($id);
+        $students = $class->students()->where('class_id', $id)->update(['class_id' => 0]);
+        $class->delete();
     }
 }

@@ -15,7 +15,14 @@ class LecturesController extends Controller
 
     public function show($id)
     {
-        return Lectures::find($id);
+        $lecture = Lectures::with('classes')->findOrFail($id);
+        $ids = $lecture->classes->pluck('id')->toArray();
+        $classes = $lecture->classes()->find($ids);
+        $students = [];
+        foreach ($classes as $class) {
+            $students = array_merge($students, $class->students->toArray());
+        }
+        return $lecture->toArray()+['students' => $students];
     }
 
     public function store(StoreLecturesRequest $request)
@@ -34,6 +41,5 @@ class LecturesController extends Controller
     public function destroy($id)
     {
         Lectures::destroy($id);
-        return response(null, 204);
     }
 }

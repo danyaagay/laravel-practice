@@ -15,13 +15,14 @@ class StudentsController extends Controller
 
     public function show($id)
     {
-        return Students::find($id);
+        $student = Students::with('class')->findOrFail($id);
+        $lectures = $student->class()->find($student->class_id)->lectures;
+        return $student->toArray() + ['lectures' => $lectures];
     }
 
     public function store(StoreStudentsRequest $request)
     {
-        $student = Students::create($request->validated());
-        return $student;
+        return Students::create($request->validated());
     }
 
     public function update(UpdateStudentsRequest $request, $id)
@@ -34,8 +35,5 @@ class StudentsController extends Controller
     public function destroy($id)
     {
         Students::destroy($id);
-        //$student = Students::findOrFail($id);
-        //$student->delete();
-        return response(null, 204);
     }
 }

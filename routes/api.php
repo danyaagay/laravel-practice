@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\LecturesController;
+use App\Http\Controllers\PlansController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,4 @@ use App\Http\Controllers\LecturesController;
 Route::apiResource('/students', StudentsController::class);
 Route::apiResource('/classes', ClassesController::class);
 Route::apiResource('/lectures', LecturesController::class);
+Route::apiResource('/plans', PlansController::class);
