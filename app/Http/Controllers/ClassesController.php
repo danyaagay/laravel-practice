@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -13,7 +14,7 @@ class ClassesController extends Controller
         return Classes::get();
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         return Classes::with('students')->findOrFail($id);
     }
@@ -24,14 +25,14 @@ class ClassesController extends Controller
         return $class;
     }
 
-    public function update(UpdateClassesRequest $request, $id)
+    public function update(UpdateClassesRequest $request, int $id)
     {
         $class = Classes::findOrFail($id);
         $class->update($request->validated());
         return $class;
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $class = Classes::findOrFail($id);
         $students = $class->students()->where('class_id', $id)->update(['class_id' => 0]);

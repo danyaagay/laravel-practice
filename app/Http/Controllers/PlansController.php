@@ -14,7 +14,7 @@ class PlansController extends Controller
         return Plans::get();
     }
     
-    public function show($id)
+    public function show(int $id)
     {
         return Classes::findOrFail($id)->lectures;
     }
@@ -25,14 +25,14 @@ class PlansController extends Controller
         return $plan;
     }
 
-    public function update(UpdatePlansRequest $request, $id)
+    public function update(UpdatePlansRequest $request, int $id)
     {
         $plan = Plans::findOrFail($id);
         $plan->update($request->validated());
         return $plan;
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         Plans::destroy($id);
     }

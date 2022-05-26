@@ -13,7 +13,7 @@ class StudentsController extends Controller
         return Students::get();
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $student = Students::with('class')->findOrFail($id);
         $lectures = $student->class()->find($student->class_id)->lectures;
@@ -25,14 +25,14 @@ class StudentsController extends Controller
         return Students::create($request->validated());
     }
 
-    public function update(UpdateStudentsRequest $request, $id)
+    public function update(UpdateStudentsRequest $request, int $id)
     {
         $student = Students::findOrFail($id);
         $student->update($request->safe()->only(['name', 'class_id']));
         return $student;
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         Students::destroy($id);
     }
