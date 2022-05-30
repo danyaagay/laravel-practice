@@ -25,7 +25,7 @@ class StorePlansRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'lecture_id' => "required|integer|uniqueLecture:{$request->class_id}",
+            'lecture_id' => "required|integer|uniqueLecture:{$request->class_id}|exists:lectures,id",
             'class_id' => 'required|integer',
             'planned_at' => 'required|string'
         ];

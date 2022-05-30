@@ -1,10 +1,10 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateClassesRequest;
 use App\Http\Requests\StoreClassesRequest;
+use App\Http\Requests\StorePlansRequest;
 use App\Models\Classes;
 
 class ClassesController extends Controller
@@ -14,9 +14,14 @@ class ClassesController extends Controller
         return Classes::get();
     }
 
-    public function show(int $id)
+    public function show($id)
     {
         return Classes::with('students')->findOrFail($id);
+    }
+
+    public function showLectures($id)
+    {
+        return Classes::findOrFail($id)->lectures;
     }
 
     public function store(StoreClassesRequest $request)
@@ -25,14 +30,21 @@ class ClassesController extends Controller
         return $class;
     }
 
-    public function update(UpdateClassesRequest $request, int $id)
+    public function storePlans(StorePlansRequest $request)
+    {
+        $validated = $request->validated();
+        $class = Classes::findOrFail($validated['class_id']);
+        $class->lectures()->attach($validated['lecture_id'], ['planned_at' => $validated['planned_at']]);
+    }
+
+    public function update(UpdateClassesRequest $request, $id)
     {
         $class = Classes::findOrFail($id);
         $class->update($request->validated());
         return $class;
     }
 
-    public function destroy(int $id)
+    public function destroy($id)
     {
         $class = Classes::findOrFail($id);
         $students = $class->students()->where('class_id', $id)->update(['class_id' => 0]);

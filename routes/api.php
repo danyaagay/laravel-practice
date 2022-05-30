@@ -21,4 +21,9 @@ use App\Http\Controllers\PlansController;
 Route::apiResource('/students', StudentsController::class);
 Route::apiResource('/classes', ClassesController::class);
 Route::apiResource('/lectures', LecturesController::class);
-Route::apiResource('/plans', PlansController::class);
+
+Route::get('/plans/{id}', [ClassesController::class, 'showLectures']);
+Route::post('/plans', [ClassesController::class, 'storePlans']);
+Route::get('/plans', [PlansController::class, 'index']);
+Route::put('/plans', [PlansController::class, 'update']);
+Route::delete('/plans/{id}', [PlansController::class, 'destroy']);

@@ -13,7 +13,7 @@ class LecturesController extends Controller
         return Lectures::get();
     }
 
-    public function show(int $id)
+    public function show($id)
     {
         $lecture = Lectures::with('classes')->findOrFail($id);
         $ids = $lecture->classes->pluck('id')->toArray();
@@ -31,14 +31,14 @@ class LecturesController extends Controller
         return $lecture;
     }
 
-    public function update(UpdateLecturesRequest $request, int $id)
+    public function update(UpdateLecturesRequest $request, $id)
     {
         $lecture = Lectures::findOrFail($id);
         $lecture->update($request->validated());
         return $lecture;
     }
 
-    public function destroy(int $id)
+    public function destroy($id)
     {
         Lectures::destroy($id);
     }
