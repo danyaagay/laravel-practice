@@ -26,7 +26,7 @@ class StoreStudentsRequest extends FormRequest
         return [
             'email' => 'required|string|unique:students,email|email:rfc',
             'name' => 'required|string',
-            'class_id' => 'required|integer'
+            'class_id' => 'required|integer|exists:classes,id'
         ];
     }
 
